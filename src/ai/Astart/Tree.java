@@ -13,7 +13,7 @@ public class Tree {
     public void traverseTree(Node node) {
         if (node != null) {
             int[][] left, right, up, down;
-            int hleft = 1000, hright = 1000, hup = 1000, hdown = 1000;
+            int FLeft = 1000, FRight = 1000, FUp = 1000, FDown = 1000;
             Map<String, Integer> maping
                     = new HashMap<String, Integer>();
 
@@ -25,31 +25,31 @@ public class Tree {
             if (right != null) {
                 Node rightNode = new Node(right);
                 rightNode.setG(node.getG() + 1);
-                hright = rightNode.fun;
-                maping.put("right", hright);
+                FRight = rightNode.fun;
+                maping.put("right", FRight);
             }
             if (up != null) {
                 Node upNode = new Node(up);
                 upNode.setG(node.getG() + 1);
-                hup = upNode.fun;
-                maping.put("up", hup);
+                FUp = upNode.fun;
+                maping.put("up", FUp);
 
             }
             if (down != null) {
                 Node downNode = new Node(down);
                 downNode.setG(node.getG() + 1);
-                hdown = downNode.fun;
-                maping.put("down", hdown);
+                FDown = downNode.fun;
+                maping.put("down", FDown);
 
             }
             if (left != null) {
                 Node leftNode = new Node(left);
                 leftNode.setG(node.getG() + 1);
-                hleft = leftNode.fun;
-                maping.put("left", hleft);
+                FLeft = leftNode.fun;
+                maping.put("left", FLeft);
 
             }
-            if (hleft == hright && hright == hdown && hdown == hup && hleft != 1000) {
+            if (FLeft == FRight && FRight == FDown && FDown == FUp && FLeft != 1000) {
                 traverseTree(node.left);
                 traverseTree(node.right);
                 traverseTree(node.down);
