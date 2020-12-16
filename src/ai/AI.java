@@ -97,6 +97,7 @@ public class AI {
 
             return null;
         } else {
+            System.out.println("i : "+i);
             int swap = array[i][j];
             array[i][j] = array[i + 1][j];
             array[i + 1][j] = swap;
