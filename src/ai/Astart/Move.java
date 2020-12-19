@@ -64,8 +64,12 @@ public class Move {
         }
     }
 
-    static int[][] MoveDown(int[][] array) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public static int MinNumber(int s1, int s2, int s3, int s4) {
+        int min = s1;
+        min = (min < s2) ? min : s2;
+        min = (min < s3) ? min : s3;
+        min = (min < s4) ? min : s4;
+        return min;
     }
 
 }

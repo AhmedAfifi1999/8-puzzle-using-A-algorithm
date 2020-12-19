@@ -3,24 +3,23 @@ package ai.Astart;
 public class Node {
 
     final static int[][] Goal = {{1, 2, 3},
-    {8, 0, 4},
-    {7, 6, 5}};
+                                {8, 0, 4},
+                                {7, 6, 5}};
   private int[][] array;
-    int h=calcH(array, Goal);
+    int h;
     int g;
     Node left;
     Node right;
     Node up;
     Node down;
-    int fun = g + h;
+    int fun ;
 //= calcH(array, Goal);
 
     public Node(int[][] array) {
         this.array = array;
         left = right = up = down = null;
-        //this.h = 
-        /* printarray(array);
-        System.out.println("------");*/
+        h=calcH(array, Goal);
+       
     }
 
     public int getH() {
@@ -76,7 +75,7 @@ public class Node {
     }
 
     public int getFun() {
-        return fun;
+        return h+g;
     }
 
     public void setFun(int fun) {
@@ -97,7 +96,7 @@ public class Node {
 
     public static int calcH(int[][] array, int[][] goal) {
         if (array == null) {
-            return 10;
+            return 150000;
             //H cant be 10  , just for check cant be  move
 
         } else {

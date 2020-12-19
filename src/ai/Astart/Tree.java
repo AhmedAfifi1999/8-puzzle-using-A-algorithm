@@ -29,162 +29,63 @@ public class Tree {
         return result;
     }
 
+    public int[] CreateNode(int[][] left, int[][] right, int[][] up, int[][] down, Node node) {
+        int[] result = new int[4];
+
+        if (left != null) {
+            Node leftNode = new Node(left);
+            leftNode.setG(node.getG() + 1);
+            result[0] = leftNode.getFun();
+            // traverseTree(leftNode.left);
+            System.out.println("left: " + result[0]);
+
+        }
+        if (right != null) {
+            Node rightNode = new Node(right);
+            // node.setRight(rightNode);
+            rightNode.setG((node.getG() + 1));
+            result[1] = rightNode.getFun();
+            //  traverseTree(rightNode.getRight());
+            System.out.println("Right: " + result[1]);
+        }
+        if (up != null) {
+            Node upNode = new Node(up);
+            upNode.setG(node.getG() + 1);
+            result[2] = upNode.getFun();
+            //       traverseTree(upNode.up);
+            System.out.println("UP: " + result[2]);
+
+        }
+        if (down != null) {
+            Node downNode = new Node(down);
+            downNode.setG(node.getG() + 1);
+            result[3] = downNode.getFun();
+            //  traverseTree(downNode.down);
+            System.out.println("down: " + result[3]);
+
+        }
+
+        return result;
+    }
+
     public void traverseTree(Node node) {
 
         if (node != null) {
-            int[][] left = copy(node.getArray());
-            int[][] right = copy(node.getArray());
-            int[][] up = copy(node.getArray());
-            int[][] down = copy(node.getArray());
+            int[][] left, right, up, down;
+            int FLeft, FRight, FUp, FDown;
+            Map<Integer, int[][]> maping = Move(node.getArray());
+            // Left , Right , Up , Down //
 
-            int FLeft = 1000, FRight = 1000, FUp = 1000, FDown = 1000;
-            Map<String, Integer> maping
-                    = new HashMap<>();
-            printarray(node.getArray());
-            System.out.println("-down-------");
-            down = MoveDown(down);
-            printarray(down);
-            System.out.println("--right-----");
-            right = MoveRight(right);
-            printarray(right);
+            left = maping.get(0);
+            right = maping.get(1);
+            up = maping.get(2);
+            printarray(up);
 
-            up = MoveUp(up);
-            left = MoveLeft(left);
-
-            if (right != null) {
-
-                Node rightNode = new Node(right);
-                node.setRight(rightNode);
-                rightNode.setG((node.getG() + 1));
-                FRight = rightNode.getFun();
-                System.out.println("fringht" + FRight);
-                maping.put("right", FRight);
-                traverseTree(rightNode.getRight());
-            }
-            if (up != null) {
-                Node upNode = new Node(up);
-                upNode.setG(node.getG() + 1);
-                FUp = upNode.fun;
-                maping.put("up", FUp);
-                traverseTree(upNode.up);
-
-            }
-            if (down != null) {
-                Node downNode = new Node(down);
-                downNode.setG(node.getG() + 1);
-                FDown = downNode.fun;
-                maping.put("down", FDown);
-                traverseTree(downNode.down);
-
-            }
-            if (left != null) {
-                Node leftNode = new Node(left);
-                leftNode.setG(node.getG() + 1);
-                FLeft = leftNode.fun;
-                maping.put("left", FLeft);
-                traverseTree(leftNode.left);
-
-            }
-            System.out.println("FRight : " + FRight);
-
-
-            /*for (Map.Entry<String, Integer> entry : maping.entrySet()) {
-                String key = entry.getKey();
-                Integer value = entry.getValue();
-
-            }*/
- /*   traverseTree(node.left);
-            System.out.print(" " + node.left);
-            traverseTree(node.right);*/
+            down = maping.get(3);
+            int[] result = CreateNode(left, right, up, down, node);
+            System.out.println(Arrays.toString(result));
         }
 
-    }
-
-    public static int[][] MoveRight(int[][] array) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                if (array[i][j] == 0) {
-                    if (j + 1 == 3) {
-
-                        return null;
-                    } else {
-
-                        int swap = array[i][j];
-                        array[i][j] = array[i][j + 1];
-                        array[i][j + 1] = swap;
-                        return array;
-                    }
-                }
-            }
-        }
-        return array;
-    }
-
-    public static int[][] MoveLeft(int[][] array) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                if (array[i][j] == 0) {
-
-                    if (j - 1 == -1) {
-
-                        return null;
-                    } else {
-                        int[][] result = array;
-                        int swap = result[i][j];
-                        result[i][j] = result[i][j - 1];
-                        result[i][j - 1] = swap;
-                        return result;
-                    }
-
-                }
-            }
-        }
-        return array;
-    }
-
-    public static int[][] MoveUp(int[][] array) {
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                if (array[i][j] == 0) {
-
-                    if (i - 1 == -1) {
-
-                        return null;
-                    } else {
-                        int swap = array[i][j];
-                        array[i][j] = array[i - 1][j];
-                        array[i - 1][j] = swap;
-                        return array;
-                    }
-
-                }
-            }
-        }
-        return array;
-    }
-
-    public static int[][] MoveDown(int[][] array) {
-        int[][] result = array;
-        for (int i = 0; i < 3; i++) {
-            for (int j = 0; j < 3; j++) {
-
-                if (result[i][j] == 0) {
-                    if (i + 1 == 3) {
-
-                        return null;
-                    } else {
-                        int swap = result[i][j];
-                        result[i][j] = result[i + 1][j];
-                        result[i + 1][j] = swap;
-                        return result;
-                    }
-                }
-            }
-        }
-        return result;
     }
 
     public static Map<Integer, int[][]> Move(int[][] arr) {
@@ -199,29 +100,29 @@ public class Tree {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (arr[i][j] == 0) {
-
+                 //   System.out.println(" i : " + i + " j : " + j);
                     //left 
-                    Move.MoveLeft(left, i, j);
+                    left = Move.MoveLeft(left, i, j);
                     maping.put(0, left);
-                    printarray(left);
+                    //  printarray(left);
                     System.out.println("-----");
 
                     //Right
-                    Move.MoveRight(right, i, j);
+                    right = Move.MoveRight(right, i, j);
                     maping.put(1, right);
-                    printarray(right);
+                    //  printarray(right);
                     System.out.println("-----");
 
                     //Up 
-                    Move.MoveUp(up, i, j);
+                    up = Move.MoveUp(up, i, j);
                     maping.put(2, up);
-                    printarray(up);
+                    //  printarray(up);
                     System.out.println("-----");
 
                     // Down
-                    Move.MoveDown(down, i, j);
+                    down = Move.MoveDown(down, i, j);
                     maping.put(3, down);
-                    printarray(down);
+                    //  printarray(down);
                     System.out.println("-----");
 
                     break;
@@ -268,24 +169,15 @@ public class Tree {
     }
 
     public static void main(String[] args) {
-        /*   Tree tree = new Tree();
+        Tree tree = new Tree();
         Node z = new Node(intial);
         z.setG(0);
+
+        System.out.println(z.getFun());
         tree.traverseTree(z);
 
-       // int h = calcH(intial, Goal);
-
-       // System.out.println("h : " + h);*/
-
+        // int h = calcH(intial, Goal);
+        // System.out.println("h : " + h);*/
         // Move(intial);
-        SortedMap<Integer, String> maping
-                = new TreeMap<>();
-
-        maping.put(10, "f");
-        maping.put(1, "a");
-        maping.put(1, "b");
-        maping.put(9, "c");
-        
-        System.out.println(maping);
     }
 }
