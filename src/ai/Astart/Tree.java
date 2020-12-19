@@ -1,8 +1,11 @@
 package ai.Astart;
 
 import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 public class Tree {
 
@@ -15,23 +18,38 @@ public class Tree {
     {8, 0, 4},
     {7, 6, 5}};
 
+    public static int[][] copy(int[][] arr) {
+        int[][] result = new int[3][3];
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                result[i][j] = arr[i][j];
+            }
+        }
+
+        return result;
+    }
+
     public void traverseTree(Node node) {
-        int[][] temp = node.getArray();
+
         if (node != null) {
-            int[][] left, right, up, down;
+            int[][] left = copy(node.getArray());
+            int[][] right = copy(node.getArray());
+            int[][] up = copy(node.getArray());
+            int[][] down = copy(node.getArray());
+
             int FLeft = 1000, FRight = 1000, FUp = 1000, FDown = 1000;
             Map<String, Integer> maping
-                    = new HashMap<String, Integer>();
+                    = new HashMap<>();
             printarray(node.getArray());
-            System.out.println("--------");
-            down = MoveDown(node.getArray());
-            printarray(node.getArray());
-            System.out.println("-------");
-            right = MoveRight(node.getArray());
-            printarray(node.getArray());
+            System.out.println("-down-------");
+            down = MoveDown(down);
+            printarray(down);
+            System.out.println("--right-----");
+            right = MoveRight(right);
+            printarray(right);
 
-            up = MoveUp(node.getArray());
-            left = MoveLeft(node.getArray());
+            up = MoveUp(up);
+            left = MoveLeft(left);
 
             if (right != null) {
 
@@ -170,11 +188,12 @@ public class Tree {
     }
 
     public static Map<Integer, int[][]> Move(int[][] arr) {
-        int[][] value = new int[0][3];
+        int[][] left = copy(arr);
+        int[][] right = copy(arr);
+        int[][] up = copy(arr);
+        int[][] down = copy(arr);
         Map<Integer, int[][]> maping
                 = new HashMap<>();
-        int[][] left, right, up, down;
-        left = right = up = down = arr;
 
         // Left , Right , Up , Down //
         for (int i = 0; i < 3; i++) {
@@ -249,15 +268,24 @@ public class Tree {
     }
 
     public static void main(String[] args) {
-        /*  Tree tree = new Tree();
+        /*   Tree tree = new Tree();
         Node z = new Node(intial);
         z.setG(0);
         tree.traverseTree(z);
 
-        int h = calcH(intial, Goal);
+       // int h = calcH(intial, Goal);
 
-        System.out.println("h : " + h);*/
+       // System.out.println("h : " + h);*/
 
-        Move(intial);
+        // Move(intial);
+        SortedMap<Integer, String> maping
+                = new TreeMap<>();
+
+        maping.put(10, "f");
+        maping.put(1, "a");
+        maping.put(1, "b");
+        maping.put(9, "c");
+        
+        System.out.println(maping);
     }
 }
