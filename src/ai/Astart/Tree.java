@@ -10,13 +10,24 @@ import java.util.TreeMap;
 public class Tree {
 
     Node root;
-    static int[][] intial = {{2, 3, 6},
-    {8, 0, 5},
-    {4, 1, 7}};
-
+    static int[][] intial  ={{0,6,8},
+                            {1,4,5},
+                            {3,7,2}};
+//2 3 6 0 4 5 8 1 7
+    
+    /*
+    ={{0,2,3},
+                            {1,4,5},
+                            {8,7,6}};
+    
+    */
     final static int[][] Goal = {{1, 2, 3},
-    {8, 0, 4},
-    {7, 6, 5}};
+                            {8, 0, 4},
+                            {7, 6, 5}};
+    Node leftNode;
+    Node rightNode;
+    Node upNode;
+    Node downNode;
 
     public static int[][] copy(int[][] arr) {
         int[][] result = new int[3][3];
@@ -30,62 +41,108 @@ public class Tree {
     }
 
     public int[] CreateNode(int[][] left, int[][] right, int[][] up, int[][] down, Node node) {
-        int[] result = new int[4];
-
+        int result[] = new int[4];
         if (left != null) {
-            Node leftNode = new Node(left);
+            leftNode = new Node(left);
             leftNode.setG(node.getG() + 1);
             result[0] = leftNode.getFun();
+
             // traverseTree(leftNode.left);
             System.out.println("left: " + result[0]);
 
+        } else {
+            result[0] = 55555;
+
         }
         if (right != null) {
-            Node rightNode = new Node(right);
-            // node.setRight(rightNode);
+            rightNode = new Node(right);
             rightNode.setG((node.getG() + 1));
             result[1] = rightNode.getFun();
-            //  traverseTree(rightNode.getRight());
             System.out.println("Right: " + result[1]);
+        } else {
+            result[1] = 55555;
+
         }
         if (up != null) {
-            Node upNode = new Node(up);
+            upNode = new Node(up);
             upNode.setG(node.getG() + 1);
             result[2] = upNode.getFun();
-            //       traverseTree(upNode.up);
             System.out.println("UP: " + result[2]);
+
+        } else {
+            result[2] = 55555;
 
         }
         if (down != null) {
-            Node downNode = new Node(down);
+            downNode = new Node(down);
             downNode.setG(node.getG() + 1);
             result[3] = downNode.getFun();
-            //  traverseTree(downNode.down);
             System.out.println("down: " + result[3]);
 
+        } else {
+            result[3] = 55555;
+
         }
+        // Left , Right , Up , Down //
 
         return result;
     }
 
     public void traverseTree(Node node) {
+        if (Move.equal(node.getArray(), Node.Goal)) {
+            System.out.println("-***************************************");
+            System.out.println("-***************************************");
+            System.out.println("-***************************************");
+            System.out.println("-***************************************");
+            System.out.println("-***************************************");
+            System.out.println("-***************************************");
+            ;
 
-        if (node != null) {
-            int[][] left, right, up, down;
-            int FLeft, FRight, FUp, FDown;
-            Map<Integer, int[][]> maping = Move(node.getArray());
-            // Left , Right , Up , Down //
+        } else {
+            if (node != null) {
 
-            left = maping.get(0);
-            right = maping.get(1);
-            up = maping.get(2);
-            printarray(up);
+                int[][] left, right, up, down;
+                // int FLeft, FRight, FUp, FDown;
+                int min;
+                Map<Integer, int[][]> maping = Move(node.getArray());
+                Map<Integer, Node> Nodes;
 
-            down = maping.get(3);
-            int[] result = CreateNode(left, right, up, down, node);
-            System.out.println(Arrays.toString(result));
+                // Left , Right , Up , Down //
+                left = maping.get(0);
+                right = maping.get(1);
+                up = maping.get(2);
+                down = maping.get(3);
+                //result[0], result[1],result[2],result[3]
+                int[] result = CreateNode(left, right, up, down, node);
+                min = Move.findMin(result);
+                System.out.println(Arrays.toString(result));
+                System.out.println("min :" + min);
+                if (result[0] == min && min != 5555) {
+                    if (min < 3000) {
+                        traverseTree(leftNode);
+                    }
+                }
+                if (result[1] == min && min != 5555) {
+                    if (min < 3000) {
+
+                        traverseTree(rightNode);
+                    }
+                }
+                if (result[2] == min && min != 5555) {
+                    if (min < 3000) {
+
+                        traverseTree(upNode);
+                    }
+                }
+                if (result[3] == min && min != 5555) {
+                    if (min < 3000) {
+
+                        traverseTree(downNode);
+                    }
+                }
+
+            }
         }
-
     }
 
     public static Map<Integer, int[][]> Move(int[][] arr) {
@@ -100,7 +157,7 @@ public class Tree {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
                 if (arr[i][j] == 0) {
-                 //   System.out.println(" i : " + i + " j : " + j);
+                    //   System.out.println(" i : " + i + " j : " + j);
                     //left 
                     left = Move.MoveLeft(left, i, j);
                     maping.put(0, left);
@@ -145,29 +202,6 @@ public class Tree {
 
     }
 
-    public static int calcH(int[][] array, int[][] goal) {
-        if (array == null) {
-            return 10;
-            //H cant be 10  , just for check cant be  move
-
-        } else {
-            int h = 0;
-            for (int i = 0; i < 3; i++) {
-                for (int j = 0; j < 3; j++) {
-
-                    if (array[i][j] == goal[i][j]) {
-
-                        if (array[i][j] != 0) {
-                            h++;
-                        }
-                    }
-                }
-            }
-            return 8 - h;
-
-        }
-    }
-
     public static void main(String[] args) {
         Tree tree = new Tree();
         Node z = new Node(intial);
@@ -175,9 +209,9 @@ public class Tree {
 
         System.out.println(z.getFun());
         tree.traverseTree(z);
-
         // int h = calcH(intial, Goal);
         // System.out.println("h : " + h);*/
         // Move(intial);
+
     }
 }

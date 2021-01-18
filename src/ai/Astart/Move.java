@@ -5,6 +5,8 @@
  */
 package ai.Astart;
 
+import java.util.Arrays;
+
 /**
  *
  * @author A7med
@@ -72,4 +74,46 @@ public class Move {
         return min;
     }
 
+    public static int findMin(int[] array) {
+        int min = array[0];
+        for (int i = 1; i < array.length; i++) {
+            if (min > array[i]) {
+                min = array[i];
+            }
+        }
+        return min;
+    }
+
+    public static boolean equal(final int[][] arr1, final int[][] arr2) {
+
+        if (arr1 == null) {
+
+            return (arr2 == null);
+
+        }
+
+        if (arr2 == null) {
+
+            return false;
+
+        }
+
+        if (arr1.length != arr2.length) {
+
+            return false;
+
+        }
+
+        for (int i = 0; i < arr1.length; i++) {
+
+            if (!Arrays.equals(arr1[i], arr2[i])) {
+
+                return false;
+
+            }
+
+        }
+
+        return true;
+    }
 }
